@@ -1,12 +1,17 @@
 package middleware
 
 import (
+	"library-management-system-go/internal/config"
+	"strings"
+
 	"github.com/gin-gonic/gin"
 )
 
-func CORSMiddleware() gin.HandlerFunc {
+func CORSMiddleware(cfg *config.Config) gin.HandlerFunc {
+
+	ao := getAllowedOrignsFromConfig(cfg.Security.AllowedOrigins)
 	return func(c *gin.Context) {
-		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+		c.Writer.Header().Set("Access-Control-Allow-Origin", ao)
 		c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
 		c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
 		c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS, GET, PUT, DELETE, PATCH")
@@ -18,4 +23,14 @@ func CORSMiddleware() gin.HandlerFunc {
 
 		c.Next()
 	}
+}
+
+func getAllowedOrignsFromConfig(ao string) string {
+	ao = strings.TrimSpace(ao)
+
+	if ao == "" || ao == "*" {
+		return "*"
+	}
+
+	return ao
 }

@@ -1,6 +1,7 @@
 package api
 
 import (
+	"library-management-system-go/internal/config"
 	"library-management-system-go/internal/handler"
 	"library-management-system-go/internal/middleware"
 	"library-management-system-go/internal/service"
@@ -8,10 +9,11 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func SetupRoutes(router *gin.Engine, authService service.AuthService) {
+func SetupRoutes(router *gin.Engine, authService service.AuthService, cfg *config.Config) {
 	authHandler := handler.NewAuthHandler(authService)
 
 	auth := router.Group("/api/v1/auth")
+	auth.Use(middleware.CORSMiddleware(cfg))
 	{
 		auth.POST("/register", authHandler.Register)
 		auth.POST("/login", authHandler.Login)

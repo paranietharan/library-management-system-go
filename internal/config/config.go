@@ -14,6 +14,7 @@ type Config struct {
 	Server   ServerConfig
 	JWT      JWTConfig
 	Email    EmailConfig
+	Security SecurityConfig
 }
 
 type DatabaseConfig struct {
@@ -41,6 +42,10 @@ type EmailConfig struct {
 	Username string
 	Password string
 	From     string
+}
+
+type SecurityConfig struct {
+	AllowedOrigins string
 }
 
 func Load() (*Config, error) {
@@ -71,6 +76,9 @@ func Load() (*Config, error) {
 			Username: getEnv("SMTP_USERNAME", ""),
 			Password: getEnv("SMTP_PASSWORD", ""),
 			From:     getEnv("SMTP_FROM", ""),
+		},
+		Security: SecurityConfig{
+			AllowedOrigins: getEnv("ALLOWED_ORIGINS", "*"),
 		},
 	}
 

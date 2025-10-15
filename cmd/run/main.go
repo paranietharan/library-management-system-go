@@ -43,7 +43,7 @@ func main() {
 
 	// Setup router
 	router := api.NewRouter()
-	api.SetupRoutes(router, authService)
+	api.SetupRoutes(router, authService, cfg)
 
 	// Start server
 	log.Printf("Server starting on port %s", cfg.Server.Port)
