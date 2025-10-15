@@ -2,6 +2,7 @@ package main
 
 import (
 	"library-management-system-go/internal/config"
+	"library-management-system-go/internal/database"
 	"library-management-system-go/internal/database/migration"
 	"log"
 	"os"
@@ -26,6 +27,14 @@ func main() {
 			log.Fatalf("Rollback failed: %v", err)
 		}
 		log.Println("Rollback completed")
+		return
+	}
+
+	if len(os.Args) > 1 && os.Args[1] == "seed" {
+		if err := database.SeedDefaultUsers(cfg); err != nil {
+			log.Printf("Warning: Failed to seed default users: %v", err)
+		}
+		log.Println("Seeding completed ....")
 		return
 	}
 }
