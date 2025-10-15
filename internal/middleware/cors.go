@@ -9,7 +9,7 @@ import (
 
 func CORSMiddleware(cfg *config.Config) gin.HandlerFunc {
 
-	ao := getAllowedOrignsFromConfig(cfg.Security.AllowedOrigins)
+	ao := getAllowedOriginsFromConfig(cfg.Security.AllowedOrigins)
 	return func(c *gin.Context) {
 		c.Writer.Header().Set("Access-Control-Allow-Origin", ao)
 		c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
@@ -25,7 +25,7 @@ func CORSMiddleware(cfg *config.Config) gin.HandlerFunc {
 	}
 }
 
-func getAllowedOrignsFromConfig(ao string) string {
+func getAllowedOriginsFromConfig(ao string) string {
 	ao = strings.TrimSpace(ao)
 
 	if ao == "" || ao == "*" {
