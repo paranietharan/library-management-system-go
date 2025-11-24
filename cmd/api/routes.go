@@ -4,12 +4,14 @@ import (
 	"library-management-system-go/internal/config"
 	"library-management-system-go/internal/handler"
 	"library-management-system-go/internal/middleware"
+	"library-management-system-go/internal/repository"
 	"library-management-system-go/internal/service"
 
 	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 )
 
-func SetupRoutes(router *gin.Engine, authService service.AuthService, cfg *config.Config) {
+func SetupRoutes(router *gin.Engine, authService service.AuthService, cfg *config.Config, db *gorm.DB) {
 	authHandler := handler.NewAuthHandler(authService)
 
 	auth := router.Group("/api/v1/auth")
@@ -64,5 +66,58 @@ func SetupRoutes(router *gin.Engine, authService service.AuthService, cfg *confi
 				})
 			})
 		}
+	}
+
+	// Books management
+	bookRepo := repository.NewBookRepository(db)
+	bookService := service.NewBookService(bookRepo)
+	bookHandler := handler.NewBookHandler(bookService)
+
+	books := protected.Group("/books")
+	{
+		books.GET("", bookHandler.ListBooks)
+		books.GET("/:id", bookHandler.GetBook)
+
+		// Admin and Librarian only
+		manage := books.Group("")
+		manage.Use(middleware.RoleMiddleware("ADMIN", "LIBRARIAN"))
+		{
+			manage.POST("", bookHandler.CreateBook)
+			manage.PUT("/:id", bookHandler.UpdateBook)
+			manage.DELETE("/:id", bookHandler.DeleteBook)
+		}
+	}
+
+	// Endpoints related to books rating and book feed
+	reviewRepo := repository.NewReviewRepository(db)
+	reviewService := service.NewReviewService(reviewRepo)
+	reviewHandler := handler.NewReviewHandler(reviewService)
+
+	reviews := books.Group("/:book_id/reviews")
+	{
+		reviews.GET("", reviewHandler.ListReviews)
+
+		// Authenticated users can add reviews
+		reviews.POST("", middleware.AuthMiddleware(authService), reviewHandler.CreateReview)
+
+		// Owner, Admin, Librarian can update/delete
+		reviews.PUT("/:review_id", middleware.AuthMiddleware(authService), reviewHandler.UpdateReview)
+		reviews.DELETE("/:review_id", middleware.AuthMiddleware(authService), reviewHandler.DeleteReview)
+	}
+
+	commentRepo := repository.NewCommentRepository(db)
+	commentService := service.NewCommentService(commentRepo)
+	commentHandler := handler.NewCommentHandler(commentService)
+
+	comments := books.Group("/:book_id/comments")
+	{
+		comments.GET("", commentHandler.ListComments)
+
+		// Authenticated users can add comments
+		comments.POST("", middleware.AuthMiddleware(authService), commentHandler.CreateComment)
+
+		// Owner, Admin, Librarian can update/delete
+		comments.PUT("/:comment_id", middleware.AuthMiddleware(authService), commentHandler.UpdateComment)
+		comments.DELETE("/:comment_id", middleware.AuthMiddleware(authService), commentHandler.DeleteComment)
 	}
 }
