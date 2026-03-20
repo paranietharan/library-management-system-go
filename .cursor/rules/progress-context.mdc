@@ -1,0 +1,26 @@
+---
+description: Read PROGRESS_TRACKER.md before making changes to understand current project state
+alwaysApply: true
+---
+
+# Progress Tracker Context
+
+Before making any code changes or starting any task, read `PROGRESS_TRACKER.md` in the project root to understand:
+
+- What has already been completed
+- What is currently pending
+- The current connection details (VM IP, port, database, credentials)
+- The folder structure and package decisions already made
+
+## When to read it
+
+- At the start of every new task or conversation
+- Before adding new packages or files (to avoid duplicating work)
+- Before changing connection settings or credentials
+
+## When to update it
+
+- After completing any meaningful step (see `update-progress.mdc` for details)
+- Mark items `[x]` as they are completed
+- Add new pending items when they are discovered
+- Keep **Connection Details** table current if anything changes

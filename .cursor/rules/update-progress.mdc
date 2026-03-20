@@ -1,0 +1,34 @@
+---
+description: Keep PROGRESS_TRACKER.md up to date after every meaningful step
+alwaysApply: true
+---
+
+# Progress Tracking
+
+After every meaningful action or milestone, update `PROGRESS_TRACKER.md` in the project root.
+
+## What counts as a meaningful step
+
+- Any configuration change (MCP, ZeroTier, firewall, credentials)
+- Any successful or failed connectivity test
+- Any new tool or dependency installed
+- Any database query run or schema discovered
+- Any bug found and fixed
+- Any task completed or newly blocked
+
+## How to update
+
+1. Mark completed items with `[x]` under the relevant section
+2. Add new entries under today's date in the **Session Log**
+3. Keep the **Pending** section current — remove resolved items, add newly discovered ones
+4. Update **Connection Details** if any values change (IP, port, credentials, paths)
+
+## Format for new log entries
+
+```markdown
+#### <Category>
+- [x] <What was done and the result>
+- [ ] <What is still pending>
+```
+
+Do not summarise — be specific (include IPs, ports, error messages, tool names).

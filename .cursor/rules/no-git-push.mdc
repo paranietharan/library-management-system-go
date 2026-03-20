@@ -1,0 +1,13 @@
+---
+description: Never commit or push to GitHub unless explicitly authorized by the user
+alwaysApply: true
+---
+
+# No Git Commit or Push Without Explicit Authorization
+
+**NEVER** run `git commit`, `git push`, or any variant that creates commits or sends them to a remote repository unless the user has **explicitly** authorized it in the current message.
+
+- Staging files with `git add` is fine when needed for review.
+- Committing requires a clear, direct instruction such as "commit", "commit it", or "create a commit".
+- Pushing requires a clear, direct instruction such as "push it", "push to remote", or "push to GitHub".
+- If unsure whether the user wants a commit or push, **ask first** — do not assume.
