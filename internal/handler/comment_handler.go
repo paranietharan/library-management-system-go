@@ -18,14 +18,23 @@ func NewCommentHandler(service service.CommentService) *CommentHandler {
 	return &CommentHandler{service: service}
 }
 
+// @Summary Create book comment
+// @Tags comments
+// @Security BearerAuth
+// @Accept json
+// @Produce json
+// @Param id path int true "Book ID"
+// @Param request body dto.CreateCommentRequest true "Create comment request"
+// @Success 201 {object} gin.H
+// @Router /books/{id}/comments [post]
 func (h *CommentHandler) CreateComment(c *gin.Context) {
-	bookID, err := strconv.ParseUint(c.Param("book_id"), 10, 32)
+	bookID, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid book ID"})
 		return
 	}
 
-	userID := c.GetUint("userID")
+	userID := c.GetUint("user_id")
 
 	var req dto.CreateCommentRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -42,8 +51,15 @@ func (h *CommentHandler) CreateComment(c *gin.Context) {
 	c.JSON(http.StatusCreated, comment)
 }
 
+// @Summary List book comments
+// @Tags comments
+// @Security BearerAuth
+// @Produce json
+// @Param id path int true "Book ID"
+// @Success 200 {object} gin.H
+// @Router /books/{id}/comments [get]
 func (h *CommentHandler) ListComments(c *gin.Context) {
-	bookID, err := strconv.ParseUint(c.Param("book_id"), 10, 32)
+	bookID, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid book ID"})
 		return
@@ -58,6 +74,16 @@ func (h *CommentHandler) ListComments(c *gin.Context) {
 	c.JSON(http.StatusOK, comments)
 }
 
+// @Summary Update book comment
+// @Tags comments
+// @Security BearerAuth
+// @Accept json
+// @Produce json
+// @Param id path int true "Book ID"
+// @Param comment_id path int true "Comment ID"
+// @Param request body dto.UpdateCommentRequest true "Update comment request"
+// @Success 200 {object} gin.H
+// @Router /books/{id}/comments/{comment_id} [put]
 func (h *CommentHandler) UpdateComment(c *gin.Context) {
 	commentID, err := strconv.ParseUint(c.Param("comment_id"), 10, 32)
 	if err != nil {
@@ -65,7 +91,7 @@ func (h *CommentHandler) UpdateComment(c *gin.Context) {
 		return
 	}
 
-	userID := c.GetUint("userID")
+	userID := c.GetUint("user_id")
 	userRole := domain.UserRole(c.GetString("role"))
 
 	var req dto.UpdateCommentRequest
@@ -87,6 +113,14 @@ func (h *CommentHandler) UpdateComment(c *gin.Context) {
 	c.JSON(http.StatusOK, comment)
 }
 
+// @Summary Delete book comment
+// @Tags comments
+// @Security BearerAuth
+// @Produce json
+// @Param id path int true "Book ID"
+// @Param comment_id path int true "Comment ID"
+// @Success 200 {object} gin.H
+// @Router /books/{id}/comments/{comment_id} [delete]
 func (h *CommentHandler) DeleteComment(c *gin.Context) {
 	commentID, err := strconv.ParseUint(c.Param("comment_id"), 10, 32)
 	if err != nil {
@@ -94,7 +128,7 @@ func (h *CommentHandler) DeleteComment(c *gin.Context) {
 		return
 	}
 
-	userID := c.GetUint("userID")
+	userID := c.GetUint("user_id")
 	userRole := domain.UserRole(c.GetString("role"))
 
 	if err := h.service.DeleteComment(userID, uint(commentID), userRole); err != nil {

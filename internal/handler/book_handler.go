@@ -17,6 +17,14 @@ func NewBookHandler(service service.BookService) *BookHandler {
 	return &BookHandler{service: service}
 }
 
+// @Summary Create book
+// @Tags books
+// @Security BearerAuth
+// @Accept json
+// @Produce json
+// @Param request body dto.CreateBookRequest true "Create book request"
+// @Success 201 {object} gin.H
+// @Router /books [post]
 func (h *BookHandler) CreateBook(c *gin.Context) {
 	var req dto.CreateBookRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -33,6 +41,13 @@ func (h *BookHandler) CreateBook(c *gin.Context) {
 	c.JSON(http.StatusCreated, book)
 }
 
+// @Summary Get book
+// @Tags books
+// @Security BearerAuth
+// @Produce json
+// @Param id path int true "Book ID"
+// @Success 200 {object} gin.H
+// @Router /books/{id} [get]
 func (h *BookHandler) GetBook(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {
@@ -49,6 +64,15 @@ func (h *BookHandler) GetBook(c *gin.Context) {
 	c.JSON(http.StatusOK, book)
 }
 
+// @Summary List books
+// @Tags books
+// @Security BearerAuth
+// @Produce json
+// @Param page query int false "Page"
+// @Param limit query int false "Limit"
+// @Param search query string false "Search"
+// @Success 200 {object} gin.H
+// @Router /books [get]
 func (h *BookHandler) ListBooks(c *gin.Context) {
 	page, _ := strconv.Atoi(c.DefaultQuery("page", "1"))
 	limit, _ := strconv.Atoi(c.DefaultQuery("limit", "10"))
@@ -68,6 +92,15 @@ func (h *BookHandler) ListBooks(c *gin.Context) {
 	})
 }
 
+// @Summary Update book
+// @Tags books
+// @Security BearerAuth
+// @Accept json
+// @Produce json
+// @Param id path int true "Book ID"
+// @Param request body dto.UpdateBookRequest true "Update book request"
+// @Success 200 {object} gin.H
+// @Router /books/{id} [put]
 func (h *BookHandler) UpdateBook(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {
@@ -90,6 +123,13 @@ func (h *BookHandler) UpdateBook(c *gin.Context) {
 	c.JSON(http.StatusOK, book)
 }
 
+// @Summary Delete book
+// @Tags books
+// @Security BearerAuth
+// @Produce json
+// @Param id path int true "Book ID"
+// @Success 200 {object} gin.H
+// @Router /books/{id} [delete]
 func (h *BookHandler) DeleteBook(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {

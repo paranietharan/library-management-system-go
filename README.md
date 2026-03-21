@@ -37,6 +37,19 @@ A robust backend system for managing a school library, built with Go (Golang) an
     go run cmd/run/main.go
     ```
 
+## API Documentation (Swagger)
+
+This project now exposes Swagger UI for interactive API docs.
+
+- Open: `http://localhost:8080/swagger/index.html`
+- JSON spec: `http://localhost:8080/swagger/doc.json`
+
+To regenerate docs after API comment changes:
+```bash
+go install github.com/swaggo/swag/cmd/swag@latest
+"$(go env GOPATH)/bin/swag" init --parseDependency -g cmd/run/main.go -o docs/swagger
+```
+
 ## API Endpoints
 
 ### Authentication
@@ -53,16 +66,16 @@ A robust backend system for managing a school library, built with Go (Golang) an
 - `DELETE /api/v1/books/:id` - Delete a book (Admin/Librarian only)
 
 ### Reviews
-- `GET /api/v1/books/:book_id/reviews` - List reviews for a book
-- `POST /api/v1/books/:book_id/reviews` - Add a review (Authenticated)
-- `PUT /api/v1/books/:book_id/reviews/:review_id` - Update a review (Owner/Admin/Librarian)
-- `DELETE /api/v1/books/:book_id/reviews/:review_id` - Delete a review (Owner/Admin/Librarian)
+- `GET /api/v1/books/:id/reviews` - List reviews for a book
+- `POST /api/v1/books/:id/reviews` - Add a review (Authenticated)
+- `PUT /api/v1/books/:id/reviews/:review_id` - Update a review (Owner/Admin/Librarian)
+- `DELETE /api/v1/books/:id/reviews/:review_id` - Delete a review (Owner/Admin/Librarian)
 
 ### Comments
-- `GET /api/v1/books/:book_id/comments` - List comments for a book
-- `POST /api/v1/books/:book_id/comments` - Add a comment (Authenticated)
-- `PUT /api/v1/books/:book_id/comments/:comment_id` - Update a comment (Owner/Admin/Librarian)
-- `DELETE /api/v1/books/:book_id/comments/:comment_id` - Delete a comment (Owner/Admin/Librarian)
+- `GET /api/v1/books/:id/comments` - List comments for a book
+- `POST /api/v1/books/:id/comments` - Add a comment (Authenticated)
+- `PUT /api/v1/books/:id/comments/:comment_id` - Update a comment (Owner/Admin/Librarian)
+- `DELETE /api/v1/books/:id/comments/:comment_id` - Delete a comment (Owner/Admin/Librarian)
 
 ## Testing
 

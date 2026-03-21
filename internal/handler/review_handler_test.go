@@ -52,8 +52,8 @@ func TestCreateReview(t *testing.T) {
 	handler := NewReviewHandler(mockService)
 
 	router := gin.Default()
-	router.POST("/books/:book_id/reviews", func(c *gin.Context) {
-		c.Set("userID", uint(1))
+	router.POST("/books/:id/reviews", func(c *gin.Context) {
+		c.Set("user_id", uint(1))
 		handler.CreateReview(c)
 	})
 
@@ -78,7 +78,7 @@ func TestListReviews(t *testing.T) {
 	handler := NewReviewHandler(mockService)
 
 	router := gin.Default()
-	router.GET("/books/:book_id/reviews", handler.ListReviews)
+	router.GET("/books/:id/reviews", handler.ListReviews)
 
 	expectedReviews := []domain.Review{{ID: 1, Rating: 5}}
 
@@ -98,8 +98,8 @@ func TestUpdateReview(t *testing.T) {
 	handler := NewReviewHandler(mockService)
 
 	router := gin.Default()
-	router.PUT("/books/:book_id/reviews/:review_id", func(c *gin.Context) {
-		c.Set("userID", uint(1))
+	router.PUT("/books/:id/reviews/:review_id", func(c *gin.Context) {
+		c.Set("user_id", uint(1))
 		c.Set("role", "STUDENT")
 		handler.UpdateReview(c)
 	})
@@ -125,8 +125,8 @@ func TestUpdateReview_Forbidden(t *testing.T) {
 	handler := NewReviewHandler(mockService)
 
 	router := gin.Default()
-	router.PUT("/books/:book_id/reviews/:review_id", func(c *gin.Context) {
-		c.Set("userID", uint(1))
+	router.PUT("/books/:id/reviews/:review_id", func(c *gin.Context) {
+		c.Set("user_id", uint(1))
 		c.Set("role", "STUDENT")
 		handler.UpdateReview(c)
 	})
@@ -150,8 +150,8 @@ func TestDeleteReview(t *testing.T) {
 	handler := NewReviewHandler(mockService)
 
 	router := gin.Default()
-	router.DELETE("/books/:book_id/reviews/:review_id", func(c *gin.Context) {
-		c.Set("userID", uint(1))
+	router.DELETE("/books/:id/reviews/:review_id", func(c *gin.Context) {
+		c.Set("user_id", uint(1))
 		c.Set("role", "ADMIN")
 		handler.DeleteReview(c)
 	})
