@@ -18,6 +18,15 @@ func NewReservationHandler(service service.ReservationService) *ReservationHandl
 	return &ReservationHandler{service: service}
 }
 
+// @Summary List reservations
+// @Tags reservations
+// @Security BearerAuth
+// @Produce json
+// @Param page query int false "Page"
+// @Param limit query int false "Limit"
+// @Param search query string false "Search"
+// @Success 200 {object} gin.H
+// @Router /reservations [get]
 func (h *ReservationHandler) ListReservations(c *gin.Context) {
 	page, _ := strconv.Atoi(c.DefaultQuery("page", "1"))
 	limit, _ := strconv.Atoi(c.DefaultQuery("limit", "10"))
@@ -37,6 +46,13 @@ func (h *ReservationHandler) ListReservations(c *gin.Context) {
 	})
 }
 
+// @Summary Get reservation
+// @Tags reservations
+// @Security BearerAuth
+// @Produce json
+// @Param id path int true "Reservation ID"
+// @Success 200 {object} gin.H
+// @Router /reservations/{id} [get]
 func (h *ReservationHandler) GetReservation(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {
@@ -53,6 +69,14 @@ func (h *ReservationHandler) GetReservation(c *gin.Context) {
 	c.JSON(http.StatusOK, reservation)
 }
 
+// @Summary Create reservation
+// @Tags reservations
+// @Security BearerAuth
+// @Accept json
+// @Produce json
+// @Param request body dto.CreateReservationRequest true "Create reservation request"
+// @Success 201 {object} gin.H
+// @Router /reservations [post]
 func (h *ReservationHandler) CreateReservation(c *gin.Context) {
 	userID := c.GetUint("user_id")
 	role := domain.UserRole(c.GetString("role"))
@@ -72,6 +96,15 @@ func (h *ReservationHandler) CreateReservation(c *gin.Context) {
 	c.JSON(http.StatusCreated, reservation)
 }
 
+// @Summary Update reservation
+// @Tags reservations
+// @Security BearerAuth
+// @Accept json
+// @Produce json
+// @Param id path int true "Reservation ID"
+// @Param request body dto.UpdateReservationRequest true "Update reservation request"
+// @Success 200 {object} gin.H
+// @Router /reservations/{id} [put]
 func (h *ReservationHandler) UpdateReservation(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {
@@ -97,6 +130,13 @@ func (h *ReservationHandler) UpdateReservation(c *gin.Context) {
 	c.JSON(http.StatusOK, reservation)
 }
 
+// @Summary Delete reservation
+// @Tags reservations
+// @Security BearerAuth
+// @Produce json
+// @Param id path int true "Reservation ID"
+// @Success 200 {object} gin.H
+// @Router /reservations/{id} [delete]
 func (h *ReservationHandler) DeleteReservation(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {
@@ -114,4 +154,3 @@ func (h *ReservationHandler) DeleteReservation(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"message": "Reservation deleted successfully"})
 }
-

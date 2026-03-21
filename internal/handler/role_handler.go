@@ -17,6 +17,15 @@ func NewRoleHandler(service service.RoleService) *RoleHandler {
 	return &RoleHandler{service: service}
 }
 
+// @Summary List roles
+// @Tags roles
+// @Security BearerAuth
+// @Produce json
+// @Param page query int false "Page"
+// @Param limit query int false "Limit"
+// @Param search query string false "Search"
+// @Success 200 {object} gin.H
+// @Router /roles [get]
 func (h *RoleHandler) ListRoles(c *gin.Context) {
 	page, _ := strconv.Atoi(c.DefaultQuery("page", "1"))
 	limit, _ := strconv.Atoi(c.DefaultQuery("limit", "10"))
@@ -36,6 +45,13 @@ func (h *RoleHandler) ListRoles(c *gin.Context) {
 	})
 }
 
+// @Summary Get role
+// @Tags roles
+// @Security BearerAuth
+// @Produce json
+// @Param id path int true "Role ID"
+// @Success 200 {object} gin.H
+// @Router /roles/{id} [get]
 func (h *RoleHandler) GetRole(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {
@@ -52,6 +68,14 @@ func (h *RoleHandler) GetRole(c *gin.Context) {
 	c.JSON(http.StatusOK, role)
 }
 
+// @Summary Create role
+// @Tags roles
+// @Security BearerAuth
+// @Accept json
+// @Produce json
+// @Param request body dto.CreateRoleRequest true "Create role request"
+// @Success 201 {object} gin.H
+// @Router /roles [post]
 func (h *RoleHandler) CreateRole(c *gin.Context) {
 	var req dto.CreateRoleRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -67,4 +91,3 @@ func (h *RoleHandler) CreateRole(c *gin.Context) {
 
 	c.JSON(http.StatusCreated, role)
 }
-

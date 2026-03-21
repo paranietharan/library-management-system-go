@@ -1,6 +1,9 @@
 basePath: /api/v1
 definitions:
-  dto.ChangePasswordRequest:
+  gin.H:
+    additionalProperties: {}
+    type: object
+  library-management-system-go_internal_dto.ChangePasswordRequest:
     properties:
       new_password:
         minLength: 6
@@ -11,7 +14,201 @@ definitions:
     - new_password
     - old_password
     type: object
-  dto.LoginRequest:
+  library-management-system-go_internal_dto.CreateArticleCommentRequest:
+    properties:
+      content:
+        type: string
+    required:
+    - content
+    type: object
+  library-management-system-go_internal_dto.CreateArticleRatingRequest:
+    properties:
+      rating:
+        maximum: 5
+        minimum: 1
+        type: integer
+    required:
+    - rating
+    type: object
+  library-management-system-go_internal_dto.CreateArticleRequest:
+    properties:
+      category:
+        type: string
+      content:
+        type: string
+      excerpt:
+        type: string
+      featured_image_url:
+        type: string
+      slug:
+        type: string
+      tags:
+        items:
+          type: string
+        type: array
+      title:
+        maxLength: 255
+        minLength: 3
+        type: string
+    required:
+    - category
+    - content
+    - title
+    type: object
+  library-management-system-go_internal_dto.CreateArticleReviewRequest:
+    properties:
+      article_id:
+        type: integer
+      feedback:
+        type: string
+      status:
+        type: string
+    required:
+    - article_id
+    - status
+    type: object
+  library-management-system-go_internal_dto.CreateBookRequest:
+    properties:
+      author:
+        type: string
+      category:
+        type: string
+      isbn:
+        type: string
+      publication_year:
+        type: integer
+      title:
+        type: string
+      total_copies:
+        minimum: 1
+        type: integer
+    required:
+    - author
+    - category
+    - isbn
+    - publication_year
+    - title
+    - total_copies
+    type: object
+  library-management-system-go_internal_dto.CreateCommentRequest:
+    properties:
+      content:
+        type: string
+    required:
+    - content
+    type: object
+  library-management-system-go_internal_dto.CreateComplaintRequest:
+    properties:
+      category:
+        type: string
+      description:
+        type: string
+      priority:
+        type: string
+      subject:
+        type: string
+    required:
+    - description
+    - subject
+    type: object
+  library-management-system-go_internal_dto.CreateFineRequest:
+    properties:
+      amount:
+        type: number
+      due_date:
+        type: string
+      lending_id:
+        type: integer
+      notes:
+        type: string
+      reason:
+        type: string
+    required:
+    - amount
+    - due_date
+    - lending_id
+    - reason
+    type: object
+  library-management-system-go_internal_dto.CreateLendingRequest:
+    properties:
+      book_id:
+        type: integer
+      due_date:
+        type: string
+      max_renewals:
+        type: integer
+      notes:
+        type: string
+    required:
+    - book_id
+    - due_date
+    type: object
+  library-management-system-go_internal_dto.CreateReservationRequest:
+    properties:
+      book_id:
+        type: integer
+      expiry_date:
+        type: string
+      notes:
+        type: string
+    required:
+    - book_id
+    - expiry_date
+    type: object
+  library-management-system-go_internal_dto.CreateReviewRequest:
+    properties:
+      comment:
+        type: string
+      rating:
+        maximum: 5
+        minimum: 1
+        type: integer
+    required:
+    - rating
+    type: object
+  library-management-system-go_internal_dto.CreateRoleRequest:
+    properties:
+      description:
+        type: string
+      name:
+        type: string
+    required:
+    - name
+    type: object
+  library-management-system-go_internal_dto.CreateUserRequest:
+    properties:
+      date_of_birth:
+        type: string
+      email:
+        type: string
+      employee_id:
+        type: string
+      first_name:
+        type: string
+      last_name:
+        type: string
+      password:
+        minLength: 6
+        type: string
+      phone:
+        type: string
+      role:
+        type: string
+      student_id:
+        type: string
+      username:
+        maxLength: 50
+        minLength: 3
+        type: string
+    required:
+    - email
+    - first_name
+    - last_name
+    - password
+    - role
+    - username
+    type: object
+  library-management-system-go_internal_dto.LoginRequest:
     properties:
       password:
         type: string
@@ -21,7 +218,7 @@ definitions:
     - password
     - username
     type: object
-  dto.RegisterRequest:
+  library-management-system-go_internal_dto.RegisterRequest:
     properties:
       date_of_birth:
         type: string
@@ -49,7 +246,150 @@ definitions:
     - password
     - username
     type: object
-  response.Response:
+  library-management-system-go_internal_dto.UpdateArticleCommentRequest:
+    properties:
+      content:
+        type: string
+    required:
+    - content
+    type: object
+  library-management-system-go_internal_dto.UpdateArticleRatingRequest:
+    properties:
+      rating:
+        maximum: 5
+        minimum: 1
+        type: integer
+    required:
+    - rating
+    type: object
+  library-management-system-go_internal_dto.UpdateArticleRequest:
+    properties:
+      category:
+        type: string
+      content:
+        type: string
+      excerpt:
+        type: string
+      featured_image_url:
+        type: string
+      slug:
+        type: string
+      tags:
+        items:
+          type: string
+        type: array
+      title:
+        type: string
+    type: object
+  library-management-system-go_internal_dto.UpdateArticleReviewRequest:
+    properties:
+      feedback:
+        type: string
+      status:
+        type: string
+    type: object
+  library-management-system-go_internal_dto.UpdateBookRequest:
+    properties:
+      author:
+        type: string
+      category:
+        type: string
+      isbn:
+        type: string
+      publication_year:
+        type: integer
+      status:
+        type: string
+      title:
+        type: string
+      total_copies:
+        type: integer
+    type: object
+  library-management-system-go_internal_dto.UpdateCommentRequest:
+    properties:
+      content:
+        type: string
+    required:
+    - content
+    type: object
+  library-management-system-go_internal_dto.UpdateComplaintRequest:
+    properties:
+      assigned_to:
+        type: integer
+      category:
+        type: string
+      description:
+        type: string
+      priority:
+        type: string
+      resolution_notes:
+        type: string
+      resolved_date:
+        type: string
+      status:
+        type: string
+      subject:
+        type: string
+    type: object
+  library-management-system-go_internal_dto.UpdateLendingRequest:
+    properties:
+      due_date:
+        type: string
+      max_renewals:
+        type: integer
+      notes:
+        type: string
+      renewal_count:
+        type: integer
+      return_date:
+        type: string
+      status:
+        type: string
+    type: object
+  library-management-system-go_internal_dto.UpdateReservationRequest:
+    properties:
+      cancelled_date:
+        type: string
+      fulfilled_date:
+        type: string
+      lending_id:
+        type: integer
+      notes:
+        type: string
+      status:
+        type: string
+    type: object
+  library-management-system-go_internal_dto.UpdateReviewRequest:
+    properties:
+      comment:
+        type: string
+      rating:
+        maximum: 5
+        minimum: 1
+        type: integer
+    type: object
+  library-management-system-go_internal_dto.UpdateUserRequest:
+    properties:
+      date_of_birth:
+        type: string
+      employee_id:
+        type: string
+      first_name:
+        type: string
+      last_name:
+        type: string
+      password:
+        type: string
+      phone:
+        type: string
+      role:
+        type: string
+      status:
+        type: string
+      student_id:
+        type: string
+    type: object
+  library-management-system-go_pkg_response.Response:
     properties:
       data: {}
       error:
@@ -65,6 +405,439 @@ info:
   title: School Library Management API
   version: "1.0"
 paths:
+  /admin/hello:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+      security:
+      - BearerAuth: []
+      summary: Admin hello
+      tags:
+      - access
+  /articles:
+    get:
+      parameters:
+      - description: Page
+        in: query
+        name: page
+        type: integer
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Search
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+      security:
+      - BearerAuth: []
+      summary: List articles
+      tags:
+      - articles
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Create article request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/library-management-system-go_internal_dto.CreateArticleRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/gin.H'
+      security:
+      - BearerAuth: []
+      summary: Create article
+      tags:
+      - articles
+  /articles/{id}:
+    delete:
+      parameters:
+      - description: Article ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+      security:
+      - BearerAuth: []
+      summary: Delete article
+      tags:
+      - articles
+    get:
+      parameters:
+      - description: Article ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+      security:
+      - BearerAuth: []
+      summary: Get article
+      tags:
+      - articles
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Article ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update article request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/library-management-system-go_internal_dto.UpdateArticleRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+      security:
+      - BearerAuth: []
+      summary: Update article
+      tags:
+      - articles
+  /articles/{id}/comments:
+    get:
+      parameters:
+      - description: Article ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+      security:
+      - BearerAuth: []
+      summary: List article comments
+      tags:
+      - article-comments
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Article ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Create article comment request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/library-management-system-go_internal_dto.CreateArticleCommentRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/gin.H'
+      security:
+      - BearerAuth: []
+      summary: Create article comment
+      tags:
+      - article-comments
+  /articles/{id}/comments/{comment_id}:
+    delete:
+      parameters:
+      - description: Article ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Comment ID
+        in: path
+        name: comment_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+      security:
+      - BearerAuth: []
+      summary: Delete article comment
+      tags:
+      - article-comments
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Article ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Comment ID
+        in: path
+        name: comment_id
+        required: true
+        type: integer
+      - description: Update article comment request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/library-management-system-go_internal_dto.UpdateArticleCommentRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+      security:
+      - BearerAuth: []
+      summary: Update article comment
+      tags:
+      - article-comments
+  /articles/{id}/ratings:
+    get:
+      parameters:
+      - description: Article ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+      security:
+      - BearerAuth: []
+      summary: List article ratings
+      tags:
+      - article-ratings
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Article ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Create article rating request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/library-management-system-go_internal_dto.CreateArticleRatingRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/gin.H'
+      security:
+      - BearerAuth: []
+      summary: Create article rating
+      tags:
+      - article-ratings
+  /articles/{id}/ratings/{rating_id}:
+    delete:
+      parameters:
+      - description: Article ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Rating ID
+        in: path
+        name: rating_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+      security:
+      - BearerAuth: []
+      summary: Delete article rating
+      tags:
+      - article-ratings
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Article ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Rating ID
+        in: path
+        name: rating_id
+        required: true
+        type: integer
+      - description: Update article rating request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/library-management-system-go_internal_dto.UpdateArticleRatingRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+      security:
+      - BearerAuth: []
+      summary: Update article rating
+      tags:
+      - article-ratings
+  /articles/review:
+    get:
+      parameters:
+      - description: Page
+        in: query
+        name: page
+        type: integer
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Search
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+      security:
+      - BearerAuth: []
+      summary: List article reviews
+      tags:
+      - article-reviews
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Create article review request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/library-management-system-go_internal_dto.CreateArticleReviewRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/gin.H'
+      security:
+      - BearerAuth: []
+      summary: Create article review
+      tags:
+      - article-reviews
+  /articles/review/{id}:
+    get:
+      parameters:
+      - description: Review ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+      security:
+      - BearerAuth: []
+      summary: Get article review
+      tags:
+      - article-reviews
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Review ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update article review request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/library-management-system-go_internal_dto.UpdateArticleReviewRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+      security:
+      - BearerAuth: []
+      summary: Update article review
+      tags:
+      - article-reviews
   /auth/change-password:
     post:
       consumes:
@@ -75,14 +848,14 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/dto.ChangePasswordRequest'
+          $ref: '#/definitions/library-management-system-go_internal_dto.ChangePasswordRequest'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/library-management-system-go_pkg_response.Response'
       security:
       - BearerAuth: []
       summary: Change user password
@@ -98,14 +871,14 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/dto.LoginRequest'
+          $ref: '#/definitions/library-management-system-go_internal_dto.LoginRequest'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/library-management-system-go_pkg_response.Response'
       summary: Login user
       tags:
       - auth
@@ -117,7 +890,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/library-management-system-go_pkg_response.Response'
       security:
       - BearerAuth: []
       summary: Get current user profile
@@ -133,17 +906,980 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/dto.RegisterRequest'
+          $ref: '#/definitions/library-management-system-go_internal_dto.RegisterRequest'
       produces:
       - application/json
       responses:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/response.Response'
+            $ref: '#/definitions/library-management-system-go_pkg_response.Response'
       summary: Register a new user
       tags:
       - auth
+  /books:
+    get:
+      parameters:
+      - description: Page
+        in: query
+        name: page
+        type: integer
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Search
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+      security:
+      - BearerAuth: []
+      summary: List books
+      tags:
+      - books
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Create book request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/library-management-system-go_internal_dto.CreateBookRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/gin.H'
+      security:
+      - BearerAuth: []
+      summary: Create book
+      tags:
+      - books
+  /books/{id}:
+    delete:
+      parameters:
+      - description: Book ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+      security:
+      - BearerAuth: []
+      summary: Delete book
+      tags:
+      - books
+    get:
+      parameters:
+      - description: Book ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+      security:
+      - BearerAuth: []
+      summary: Get book
+      tags:
+      - books
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Book ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update book request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/library-management-system-go_internal_dto.UpdateBookRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+      security:
+      - BearerAuth: []
+      summary: Update book
+      tags:
+      - books
+  /books/{id}/comments:
+    get:
+      parameters:
+      - description: Book ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+      security:
+      - BearerAuth: []
+      summary: List book comments
+      tags:
+      - comments
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Book ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Create comment request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/library-management-system-go_internal_dto.CreateCommentRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/gin.H'
+      security:
+      - BearerAuth: []
+      summary: Create book comment
+      tags:
+      - comments
+  /books/{id}/comments/{comment_id}:
+    delete:
+      parameters:
+      - description: Book ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Comment ID
+        in: path
+        name: comment_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+      security:
+      - BearerAuth: []
+      summary: Delete book comment
+      tags:
+      - comments
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Book ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Comment ID
+        in: path
+        name: comment_id
+        required: true
+        type: integer
+      - description: Update comment request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/library-management-system-go_internal_dto.UpdateCommentRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+      security:
+      - BearerAuth: []
+      summary: Update book comment
+      tags:
+      - comments
+  /books/{id}/reviews:
+    get:
+      parameters:
+      - description: Book ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+      security:
+      - BearerAuth: []
+      summary: List book reviews
+      tags:
+      - reviews
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Book ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Create review request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/library-management-system-go_internal_dto.CreateReviewRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/gin.H'
+      security:
+      - BearerAuth: []
+      summary: Create book review
+      tags:
+      - reviews
+  /books/{id}/reviews/{review_id}:
+    delete:
+      parameters:
+      - description: Book ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Review ID
+        in: path
+        name: review_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+      security:
+      - BearerAuth: []
+      summary: Delete book review
+      tags:
+      - reviews
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Book ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Review ID
+        in: path
+        name: review_id
+        required: true
+        type: integer
+      - description: Update review request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/library-management-system-go_internal_dto.UpdateReviewRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+      security:
+      - BearerAuth: []
+      summary: Update book review
+      tags:
+      - reviews
+  /complaints:
+    get:
+      parameters:
+      - description: Page
+        in: query
+        name: page
+        type: integer
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Search
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+      security:
+      - BearerAuth: []
+      summary: List complaints
+      tags:
+      - complaints
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Create complaint request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/library-management-system-go_internal_dto.CreateComplaintRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/gin.H'
+      security:
+      - BearerAuth: []
+      summary: Create complaint
+      tags:
+      - complaints
+  /complaints/{id}:
+    delete:
+      parameters:
+      - description: Complaint ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+      security:
+      - BearerAuth: []
+      summary: Delete complaint
+      tags:
+      - complaints
+    get:
+      parameters:
+      - description: Complaint ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+      security:
+      - BearerAuth: []
+      summary: Get complaint
+      tags:
+      - complaints
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Complaint ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update complaint request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/library-management-system-go_internal_dto.UpdateComplaintRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+      security:
+      - BearerAuth: []
+      summary: Update complaint
+      tags:
+      - complaints
+  /fines:
+    get:
+      parameters:
+      - description: Page
+        in: query
+        name: page
+        type: integer
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Search
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+      security:
+      - BearerAuth: []
+      summary: List fines
+      tags:
+      - fines
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Create fine request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/library-management-system-go_internal_dto.CreateFineRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/gin.H'
+      security:
+      - BearerAuth: []
+      summary: Create fine
+      tags:
+      - fines
+  /fines/{id}:
+    get:
+      parameters:
+      - description: Fine ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+      security:
+      - BearerAuth: []
+      summary: Get fine
+      tags:
+      - fines
+  /lendings:
+    get:
+      parameters:
+      - description: Page
+        in: query
+        name: page
+        type: integer
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Search
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+      security:
+      - BearerAuth: []
+      summary: List lendings
+      tags:
+      - lendings
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Create lending request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/library-management-system-go_internal_dto.CreateLendingRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/gin.H'
+      security:
+      - BearerAuth: []
+      summary: Create lending
+      tags:
+      - lendings
+  /lendings/{id}:
+    delete:
+      parameters:
+      - description: Lending ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+      security:
+      - BearerAuth: []
+      summary: Delete lending
+      tags:
+      - lendings
+    get:
+      parameters:
+      - description: Lending ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+      security:
+      - BearerAuth: []
+      summary: Get lending
+      tags:
+      - lendings
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Lending ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update lending request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/library-management-system-go_internal_dto.UpdateLendingRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+      security:
+      - BearerAuth: []
+      summary: Update lending
+      tags:
+      - lendings
+  /librarian/hello:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+      security:
+      - BearerAuth: []
+      summary: Librarian hello
+      tags:
+      - access
+  /reservations:
+    get:
+      parameters:
+      - description: Page
+        in: query
+        name: page
+        type: integer
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Search
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+      security:
+      - BearerAuth: []
+      summary: List reservations
+      tags:
+      - reservations
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Create reservation request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/library-management-system-go_internal_dto.CreateReservationRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/gin.H'
+      security:
+      - BearerAuth: []
+      summary: Create reservation
+      tags:
+      - reservations
+  /reservations/{id}:
+    delete:
+      parameters:
+      - description: Reservation ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+      security:
+      - BearerAuth: []
+      summary: Delete reservation
+      tags:
+      - reservations
+    get:
+      parameters:
+      - description: Reservation ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+      security:
+      - BearerAuth: []
+      summary: Get reservation
+      tags:
+      - reservations
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Reservation ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update reservation request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/library-management-system-go_internal_dto.UpdateReservationRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+      security:
+      - BearerAuth: []
+      summary: Update reservation
+      tags:
+      - reservations
+  /roles:
+    get:
+      parameters:
+      - description: Page
+        in: query
+        name: page
+        type: integer
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Search
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+      security:
+      - BearerAuth: []
+      summary: List roles
+      tags:
+      - roles
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Create role request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/library-management-system-go_internal_dto.CreateRoleRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/gin.H'
+      security:
+      - BearerAuth: []
+      summary: Create role
+      tags:
+      - roles
+  /roles/{id}:
+    get:
+      parameters:
+      - description: Role ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+      security:
+      - BearerAuth: []
+      summary: Get role
+      tags:
+      - roles
+  /student/hello:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+      security:
+      - BearerAuth: []
+      summary: Student hello
+      tags:
+      - access
+  /teacher/hello:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+      security:
+      - BearerAuth: []
+      summary: Teacher hello
+      tags:
+      - access
+  /users:
+    get:
+      parameters:
+      - description: Page
+        in: query
+        name: page
+        type: integer
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Search
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+      security:
+      - BearerAuth: []
+      summary: List users
+      tags:
+      - users
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Create user request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/library-management-system-go_internal_dto.CreateUserRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/gin.H'
+      security:
+      - BearerAuth: []
+      summary: Create user
+      tags:
+      - users
+  /users/{id}:
+    delete:
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+      security:
+      - BearerAuth: []
+      summary: Delete user
+      tags:
+      - users
+    get:
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+      security:
+      - BearerAuth: []
+      summary: Get user
+      tags:
+      - users
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update user request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/library-management-system-go_internal_dto.UpdateUserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+      security:
+      - BearerAuth: []
+      summary: Update user
+      tags:
+      - users
 schemes:
 - http
 - https

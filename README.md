@@ -47,7 +47,7 @@ This project now exposes Swagger UI for interactive API docs.
 To regenerate docs after API comment changes:
 ```bash
 go install github.com/swaggo/swag/cmd/swag@latest
-"$(go env GOPATH)/bin/swag" init -g cmd/run/main.go -o docs/swagger
+"$(go env GOPATH)/bin/swag" init --parseDependency -g cmd/run/main.go -o docs/swagger
 ```
 
 ## API Endpoints

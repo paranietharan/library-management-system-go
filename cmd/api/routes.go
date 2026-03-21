@@ -11,6 +11,54 @@ import (
 	"gorm.io/gorm"
 )
 
+// @Summary Admin hello
+// @Tags access
+// @Security BearerAuth
+// @Produce json
+// @Success 200 {object} gin.H
+// @Router /admin/hello [get]
+func adminHello(c *gin.Context) {
+	c.JSON(200, gin.H{
+		"message": "Hello Admin! You have successfully passed authentication and role verification.",
+	})
+}
+
+// @Summary Librarian hello
+// @Tags access
+// @Security BearerAuth
+// @Produce json
+// @Success 200 {object} gin.H
+// @Router /librarian/hello [get]
+func librarianHello(c *gin.Context) {
+	c.JSON(200, gin.H{
+		"message": "Hello Librarian (or Admin)! Your access is verified.",
+	})
+}
+
+// @Summary Student hello
+// @Tags access
+// @Security BearerAuth
+// @Produce json
+// @Success 200 {object} gin.H
+// @Router /student/hello [get]
+func studentHello(c *gin.Context) {
+	c.JSON(200, gin.H{
+		"message": "Hello Student! Your access is verified.",
+	})
+}
+
+// @Summary Teacher hello
+// @Tags access
+// @Security BearerAuth
+// @Produce json
+// @Success 200 {object} gin.H
+// @Router /teacher/hello [get]
+func teacherHello(c *gin.Context) {
+	c.JSON(200, gin.H{
+		"message": "Hello Teacher! Your access is verified.",
+	})
+}
+
 func SetupRoutes(router *gin.Engine, authService service.AuthService, cfg *config.Config, db *gorm.DB) {
 	authHandler := handler.NewAuthHandler(authService)
 
@@ -30,41 +78,25 @@ func SetupRoutes(router *gin.Engine, authService service.AuthService, cfg *confi
 		admin := protected.Group("/admin")
 		admin.Use(middleware.RoleMiddleware("ADMIN"))
 		{
-			admin.GET("/hello", func(c *gin.Context) {
-				c.JSON(200, gin.H{
-					"message": "Hello Admin! You have successfully passed authentication and role verification.",
-				})
-			})
+			admin.GET("/hello", adminHello)
 		}
 
 		librarian := protected.Group("/librarian")
 		librarian.Use(middleware.RoleMiddleware("ADMIN", "LIBRARIAN"))
 		{
-			librarian.GET("/hello", func(c *gin.Context) {
-				c.JSON(200, gin.H{
-					"message": "Hello Librarian (or Admin)! Your access is verified.",
-				})
-			})
+			librarian.GET("/hello", librarianHello)
 		}
 
 		student := protected.Group("/student")
 		student.Use(middleware.RoleMiddleware("STUDENT"))
 		{
-			student.GET("/hello", func(c *gin.Context) {
-				c.JSON(200, gin.H{
-					"message": "Hello Student! Your access is verified.",
-				})
-			})
+			student.GET("/hello", studentHello)
 		}
 
 		teacher := protected.Group("/teacher")
 		teacher.Use(middleware.RoleMiddleware("TEACHER"))
 		{
-			teacher.GET("/hello", func(c *gin.Context) {
-				c.JSON(200, gin.H{
-					"message": "Hello Teacher! Your access is verified.",
-				})
-			})
+			teacher.GET("/hello", teacherHello)
 		}
 	}
 

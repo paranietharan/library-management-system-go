@@ -18,6 +18,15 @@ func NewLendingHandler(service service.LendingService) *LendingHandler {
 	return &LendingHandler{service: service}
 }
 
+// @Summary List lendings
+// @Tags lendings
+// @Security BearerAuth
+// @Produce json
+// @Param page query int false "Page"
+// @Param limit query int false "Limit"
+// @Param search query string false "Search"
+// @Success 200 {object} gin.H
+// @Router /lendings [get]
 func (h *LendingHandler) ListLendings(c *gin.Context) {
 	page, _ := strconv.Atoi(c.DefaultQuery("page", "1"))
 	limit, _ := strconv.Atoi(c.DefaultQuery("limit", "10"))
@@ -37,6 +46,13 @@ func (h *LendingHandler) ListLendings(c *gin.Context) {
 	})
 }
 
+// @Summary Get lending
+// @Tags lendings
+// @Security BearerAuth
+// @Produce json
+// @Param id path int true "Lending ID"
+// @Success 200 {object} gin.H
+// @Router /lendings/{id} [get]
 func (h *LendingHandler) GetLending(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {
@@ -53,6 +69,14 @@ func (h *LendingHandler) GetLending(c *gin.Context) {
 	c.JSON(http.StatusOK, lending)
 }
 
+// @Summary Create lending
+// @Tags lendings
+// @Security BearerAuth
+// @Accept json
+// @Produce json
+// @Param request body dto.CreateLendingRequest true "Create lending request"
+// @Success 201 {object} gin.H
+// @Router /lendings [post]
 func (h *LendingHandler) CreateLending(c *gin.Context) {
 	userID := c.GetUint("user_id")
 	role := domain.UserRole(c.GetString("role"))
@@ -72,6 +96,15 @@ func (h *LendingHandler) CreateLending(c *gin.Context) {
 	c.JSON(http.StatusCreated, lending)
 }
 
+// @Summary Update lending
+// @Tags lendings
+// @Security BearerAuth
+// @Accept json
+// @Produce json
+// @Param id path int true "Lending ID"
+// @Param request body dto.UpdateLendingRequest true "Update lending request"
+// @Success 200 {object} gin.H
+// @Router /lendings/{id} [put]
 func (h *LendingHandler) UpdateLending(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {
@@ -97,6 +130,13 @@ func (h *LendingHandler) UpdateLending(c *gin.Context) {
 	c.JSON(http.StatusOK, lending)
 }
 
+// @Summary Delete lending
+// @Tags lendings
+// @Security BearerAuth
+// @Produce json
+// @Param id path int true "Lending ID"
+// @Success 200 {object} gin.H
+// @Router /lendings/{id} [delete]
 func (h *LendingHandler) DeleteLending(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {
@@ -114,4 +154,3 @@ func (h *LendingHandler) DeleteLending(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"message": "Lending deleted successfully"})
 }
-

@@ -18,6 +18,15 @@ func NewFineHandler(service service.FineService) *FineHandler {
 	return &FineHandler{service: service}
 }
 
+// @Summary List fines
+// @Tags fines
+// @Security BearerAuth
+// @Produce json
+// @Param page query int false "Page"
+// @Param limit query int false "Limit"
+// @Param search query string false "Search"
+// @Success 200 {object} gin.H
+// @Router /fines [get]
 func (h *FineHandler) ListFines(c *gin.Context) {
 	page, _ := strconv.Atoi(c.DefaultQuery("page", "1"))
 	limit, _ := strconv.Atoi(c.DefaultQuery("limit", "10"))
@@ -37,6 +46,13 @@ func (h *FineHandler) ListFines(c *gin.Context) {
 	})
 }
 
+// @Summary Get fine
+// @Tags fines
+// @Security BearerAuth
+// @Produce json
+// @Param id path int true "Fine ID"
+// @Success 200 {object} gin.H
+// @Router /fines/{id} [get]
 func (h *FineHandler) GetFine(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {
@@ -53,6 +69,14 @@ func (h *FineHandler) GetFine(c *gin.Context) {
 	c.JSON(http.StatusOK, fine)
 }
 
+// @Summary Create fine
+// @Tags fines
+// @Security BearerAuth
+// @Accept json
+// @Produce json
+// @Param request body dto.CreateFineRequest true "Create fine request"
+// @Success 201 {object} gin.H
+// @Router /fines [post]
 func (h *FineHandler) CreateFine(c *gin.Context) {
 	userID := c.GetUint("user_id")
 	role := domain.UserRole(c.GetString("role"))
@@ -71,4 +95,3 @@ func (h *FineHandler) CreateFine(c *gin.Context) {
 
 	c.JSON(http.StatusCreated, fine)
 }
-
