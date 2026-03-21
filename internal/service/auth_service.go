@@ -33,6 +33,18 @@ func NewAuthService(userRepo repository.UserRepository, cfg *config.Config) Auth
 }
 
 func (s *authService) Register(req *dto.RegisterRequest) (*dto.UserDTO, error) {
+	if req.Role != "STUDENT" && req.Role != "TEACHER" {
+		return nil, errors.New("role must be STUDENT or TEACHER")
+	}
+
+	if req.Role == "STUDENT" && (req.StudentID == nil || *req.StudentID == "") {
+		return nil, errors.New("student_id is required for student")
+	}
+
+	if req.Role == "TEACHER" && (req.EmployeeID == nil || *req.EmployeeID == "") {
+		return nil, errors.New("employee_id is required for teacher")
+	}
+
 	// Check if username already exists
 	if _, err := s.userRepo.FindByUsername(req.Username); err == nil {
 		return nil, errors.New("username already exists")
@@ -68,8 +80,9 @@ func (s *authService) Register(req *dto.RegisterRequest) (*dto.UserDTO, error) {
 		Phone:        req.Phone,
 		DateOfBirth:  dob,
 		StudentID:    req.StudentID,
-		Role:         domain.RoleStudent,
-		Status:       domain.StatusActive,
+		EmployeeID:   req.EmployeeID,
+		Role:         domain.UserRole(req.Role),
+		Status:       domain.StatusInactive,
 	}
 
 	if err := s.userRepo.Create(user); err != nil {

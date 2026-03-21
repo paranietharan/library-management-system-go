@@ -6,6 +6,9 @@ import (
 	"library-management-system-go/internal/database/migration"
 	"log"
 	"os"
+
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
 )
 
 func main() {
@@ -37,4 +40,34 @@ func main() {
 		log.Println("Seeding completed ....")
 		return
 	}
+
+	if len(os.Args) > 1 && os.Args[1] == "clean-seed" {
+		if err := cleanAndSeedUsers(cfg); err != nil {
+			log.Fatalf("Clean seed failed: %v", err)
+		}
+		log.Println("Clean seed completed ....")
+		return
+	}
+}
+
+func cleanAndSeedUsers(cfg *config.Config) error {
+	dsn := cfg.GetDatabaseDSN()
+	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	if err != nil {
+		return err
+	}
+
+	// Delete all users
+	log.Println("Deleting all existing users...")
+	if err := db.Exec("DELETE FROM users").Error; err != nil {
+		return err
+	}
+	log.Println("All users deleted")
+
+	// Seed default users
+	if err := database.SeedDefaultUsers(cfg); err != nil {
+		return err
+	}
+
+	return nil
 }

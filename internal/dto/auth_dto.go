@@ -8,7 +8,9 @@ type RegisterRequest struct {
 	LastName    string  `json:"last_name" binding:"required"`
 	Phone       *string `json:"phone,omitempty"`
 	DateOfBirth *string `json:"date_of_birth,omitempty"`
+	Role        string  `json:"role" binding:"required,oneof=STUDENT TEACHER"`
 	StudentID   *string `json:"student_id,omitempty"`
+	EmployeeID  *string `json:"employee_id,omitempty"`
 }
 
 type LoginRequest struct {
@@ -43,4 +45,13 @@ type ChangePasswordRequest struct {
 
 type ResetPasswordRequest struct {
 	Email string `json:"email" binding:"required,email"`
+}
+
+type VerifyCodeRequest struct {
+	Email string `json:"email" binding:"required,email"`
+	Code  string `json:"code" binding:"required,len=6"`
+}
+
+type ApproveUserRequest struct {
+	UserID uint `json:"user_id" binding:"required"`
 }
