@@ -110,6 +110,33 @@
             "method": "POST",
             "header": [
               {
+            },
+            {
+              "name": "Verify Code",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email\": \"{{student_email}}\",\n  \"code\": \"{{verification_code}}\",\n  \"student_id\": \"{{student_id}}\"\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/auth/verify-code",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "verify-code"
+                  ]
+                }
+              },
+              "response": []
                 "key": "Content-Type",
                 "value": "application/json"
               }

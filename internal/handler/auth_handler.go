@@ -67,6 +67,29 @@ func (h *AuthHandler) Login(c *gin.Context) {
 	response.Success(c, http.StatusOK, "Login successful", loginResp)
 }
 
+// VerifyCode godoc
+// @Summary Verify authentication code
+// @Tags auth
+// @Accept json
+// @Produce json
+// @Param request body dto.VerifyCodeRequest true "Verify code request"
+// @Success 200 {object} response.Response
+// @Router /auth/verify-code [post]
+func (h *AuthHandler) VerifyCode(c *gin.Context) {
+	var req dto.VerifyCodeRequest
+	if err := c.ShouldBindJSON(&req); err != nil {
+		response.Error(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	if err := h.authService.VerifyCode(&req); err != nil {
+		response.Error(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	response.Success(c, http.StatusOK, "Code verified successfully", nil)
+}
+
 // GetProfile godoc
 // @Summary Get current user profile
 // @Tags auth

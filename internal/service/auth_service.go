@@ -7,6 +7,7 @@ import (
 	"library-management-system-go/internal/dto"
 	"library-management-system-go/internal/repository"
 	"library-management-system-go/pkg/utils"
+	"strings"
 	"time"
 
 	"gorm.io/gorm"
@@ -15,6 +16,7 @@ import (
 type AuthService interface {
 	Register(req *dto.RegisterRequest) (*dto.UserDTO, error)
 	Login(req *dto.LoginRequest) (*dto.LoginResponse, error)
+	VerifyCode(req *dto.VerifyCodeRequest) error
 	GetUserByID(id uint) (*dto.UserDTO, error)
 	ChangePassword(userID uint, req *dto.ChangePasswordRequest) error
 	ValidateToken(token string) (*utils.JWTClaims, error)
@@ -129,6 +131,38 @@ func (s *authService) Login(req *dto.LoginRequest) (*dto.LoginResponse, error) {
 		User:      s.userToDTO(user),
 		ExpiresAt: expiresAt,
 	}, nil
+}
+
+func (s *authService) VerifyCode(req *dto.VerifyCodeRequest) error {
+	hasStudentID := req.StudentID != nil && strings.TrimSpace(*req.StudentID) != ""
+	hasEmployeeID := req.EmployeeID != nil && strings.TrimSpace(*req.EmployeeID) != ""
+
+	if hasStudentID == hasEmployeeID {
+		return errors.New("provide exactly one of student_id or employee_id")
+	}
+
+	user, err := s.userRepo.FindByEmail(req.Email)
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return errors.New("user not found")
+		}
+		return errors.New("failed to verify code")
+	}
+
+	if hasStudentID {
+		studentID := strings.TrimSpace(*req.StudentID)
+		if user.StudentID == nil || strings.TrimSpace(*user.StudentID) != studentID {
+			return errors.New("student_id does not match")
+		}
+		return nil
+	}
+
+	employeeID := strings.TrimSpace(*req.EmployeeID)
+	if user.EmployeeID == nil || strings.TrimSpace(*user.EmployeeID) != employeeID {
+		return errors.New("employee_id does not match")
+	}
+
+	return nil
 }
 
 func (s *authService) GetUserByID(id uint) (*dto.UserDTO, error) {

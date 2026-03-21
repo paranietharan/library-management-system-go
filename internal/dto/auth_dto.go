@@ -48,8 +48,10 @@ type ResetPasswordRequest struct {
 }
 
 type VerifyCodeRequest struct {
-	Email string `json:"email" binding:"required,email"`
-	Code  string `json:"code" binding:"required,len=6"`
+	Email      string  `json:"email" binding:"required,email"`
+	Code       string  `json:"code" binding:"required,len=6,numeric"`
+	StudentID  *string `json:"student_id,omitempty"`
+	EmployeeID *string `json:"employee_id,omitempty"`
 }
 
 type ApproveUserRequest struct {

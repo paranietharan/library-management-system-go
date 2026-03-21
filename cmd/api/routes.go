@@ -67,6 +67,7 @@ func SetupRoutes(router *gin.Engine, authService service.AuthService, cfg *confi
 	{
 		auth.POST("/register", authHandler.Register)
 		auth.POST("/login", authHandler.Login)
+		auth.POST("/verify-code", authHandler.VerifyCode)
 	}
 
 	protected := router.Group("/api/v1")
