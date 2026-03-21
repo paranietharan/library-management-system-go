@@ -6,6 +6,10 @@ import (
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
+
+	_ "library-management-system-go/docs/swagger"
 )
 
 func NewRouter() *gin.Engine {
@@ -32,6 +36,9 @@ func NewRouter() *gin.Engine {
 			"timestamp": time.Now().Unix(),
 		})
 	})
+
+	// Swagger docs
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	return router
 }

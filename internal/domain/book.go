@@ -8,8 +8,10 @@ type BookStatus string
 
 const (
 	BookStatusAvailable   BookStatus = "AVAILABLE"
-	BookStatusOutOfStock  BookStatus = "OUT_OF_STOCK"
+	BookStatusBorrowed    BookStatus = "BORROWED"
+	BookStatusReserved   BookStatus = "RESERVED"
 	BookStatusMaintenance BookStatus = "MAINTENANCE"
+	BookStatusLost        BookStatus = "LOST"
 )
 
 type Book struct {

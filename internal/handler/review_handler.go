@@ -19,13 +19,13 @@ func NewReviewHandler(service service.ReviewService) *ReviewHandler {
 }
 
 func (h *ReviewHandler) CreateReview(c *gin.Context) {
-	bookID, err := strconv.ParseUint(c.Param("book_id"), 10, 32)
+	bookID, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid book ID"})
 		return
 	}
 
-	userID := c.GetUint("userID")
+	userID := c.GetUint("user_id")
 
 	var req dto.CreateReviewRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -43,7 +43,7 @@ func (h *ReviewHandler) CreateReview(c *gin.Context) {
 }
 
 func (h *ReviewHandler) ListReviews(c *gin.Context) {
-	bookID, err := strconv.ParseUint(c.Param("book_id"), 10, 32)
+	bookID, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid book ID"})
 		return
@@ -65,7 +65,7 @@ func (h *ReviewHandler) UpdateReview(c *gin.Context) {
 		return
 	}
 
-	userID := c.GetUint("userID")
+	userID := c.GetUint("user_id")
 	userRole := domain.UserRole(c.GetString("role"))
 
 	var req dto.UpdateReviewRequest
@@ -94,7 +94,7 @@ func (h *ReviewHandler) DeleteReview(c *gin.Context) {
 		return
 	}
 
-	userID := c.GetUint("userID")
+	userID := c.GetUint("user_id")
 	userRole := domain.UserRole(c.GetString("role"))
 
 	if err := h.service.DeleteReview(userID, uint(reviewID), userRole); err != nil {

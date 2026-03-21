@@ -10,9 +10,11 @@ import (
 type UserRepository interface {
 	Create(user *domain.User) error
 	FindByID(id uint) (*domain.User, error)
+	FindAll(page, limit int, search string) ([]domain.User, int64, error)
 	FindByUsername(username string) (*domain.User, error)
 	FindByEmail(email string) (*domain.User, error)
 	Update(user *domain.User) error
+	Delete(id uint) error
 	UpdateLastLogin(id uint) error
 }
 
@@ -37,6 +39,28 @@ func (r *userRepository) FindByID(id uint) (*domain.User, error) {
 	return &user, nil
 }
 
+func (r *userRepository) FindAll(page, limit int, search string) ([]domain.User, int64, error) {
+	var users []domain.User
+	var total int64
+
+	query := r.db.Model(&domain.User{})
+	if search != "" {
+		like := "%" + search + "%"
+		query = query.Where("username ILIKE ? OR email ILIKE ? OR first_name ILIKE ? OR last_name ILIKE ?", like, like, like, like)
+	}
+
+	if err := query.Count(&total).Error; err != nil {
+		return nil, 0, err
+	}
+
+	offset := (page - 1) * limit
+	if err := query.Offset(offset).Limit(limit).Find(&users).Error; err != nil {
+		return nil, 0, err
+	}
+
+	return users, total, nil
+}
+
 func (r *userRepository) FindByUsername(username string) (*domain.User, error) {
 	var user domain.User
 	err := r.db.Where("username = ?", username).First(&user).Error
@@ -57,6 +81,10 @@ func (r *userRepository) FindByEmail(email string) (*domain.User, error) {
 
 func (r *userRepository) Update(user *domain.User) error {
 	return r.db.Save(user).Error
+}
+
+func (r *userRepository) Delete(id uint) error {
+	return r.db.Delete(&domain.User{}, id).Error
 }
 
 func (r *userRepository) UpdateLastLogin(id uint) error {

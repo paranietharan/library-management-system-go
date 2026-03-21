@@ -52,8 +52,8 @@ func TestCreateComment(t *testing.T) {
 	handler := NewCommentHandler(mockService)
 
 	router := gin.Default()
-	router.POST("/books/:book_id/comments", func(c *gin.Context) {
-		c.Set("userID", uint(1))
+	router.POST("/books/:id/comments", func(c *gin.Context) {
+		c.Set("user_id", uint(1))
 		handler.CreateComment(c)
 	})
 
@@ -78,7 +78,7 @@ func TestListComments(t *testing.T) {
 	handler := NewCommentHandler(mockService)
 
 	router := gin.Default()
-	router.GET("/books/:book_id/comments", handler.ListComments)
+	router.GET("/books/:id/comments", handler.ListComments)
 
 	expectedComments := []domain.Comment{{ID: 1, Content: "Great"}}
 
@@ -98,8 +98,8 @@ func TestUpdateComment(t *testing.T) {
 	handler := NewCommentHandler(mockService)
 
 	router := gin.Default()
-	router.PUT("/books/:book_id/comments/:comment_id", func(c *gin.Context) {
-		c.Set("userID", uint(1))
+	router.PUT("/books/:id/comments/:comment_id", func(c *gin.Context) {
+		c.Set("user_id", uint(1))
 		c.Set("role", "STUDENT")
 		handler.UpdateComment(c)
 	})
@@ -125,8 +125,8 @@ func TestUpdateComment_Forbidden(t *testing.T) {
 	handler := NewCommentHandler(mockService)
 
 	router := gin.Default()
-	router.PUT("/books/:book_id/comments/:comment_id", func(c *gin.Context) {
-		c.Set("userID", uint(1))
+	router.PUT("/books/:id/comments/:comment_id", func(c *gin.Context) {
+		c.Set("user_id", uint(1))
 		c.Set("role", "STUDENT")
 		handler.UpdateComment(c)
 	})
@@ -150,8 +150,8 @@ func TestDeleteComment(t *testing.T) {
 	handler := NewCommentHandler(mockService)
 
 	router := gin.Default()
-	router.DELETE("/books/:book_id/comments/:comment_id", func(c *gin.Context) {
-		c.Set("userID", uint(1))
+	router.DELETE("/books/:id/comments/:comment_id", func(c *gin.Context) {
+		c.Set("user_id", uint(1))
 		c.Set("role", "ADMIN")
 		handler.DeleteComment(c)
 	})
